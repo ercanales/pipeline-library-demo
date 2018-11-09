@@ -1,21 +1,15 @@
-
-@Library('pipeline-library-demo')_
-
 pipeline {
-    agent any 
+    agent any
     stages {
-        stage('Stage 1') {
+        stage('ChangeString') {
             steps {
-                  echo 'Hello World'
-                  sayHello 'Dave'
-                  //getChangeString()
-                  getChangeString2()
+                  getChangeString()
             }
         }
     }
 }
 
-def getChangeString2() {
+def getChangeString() {
   def changeLogSets = currentBuild.changeSets
     for (int i = 0; i < changeLogSets.size(); i++) {
         def entries = changeLogSets[i].items
