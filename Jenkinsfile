@@ -8,6 +8,7 @@ pipeline {
             steps {
                   echo 'Hello World'
                   sayHello 'Dave'
+                  getChangeString()
             }
         }
     }
