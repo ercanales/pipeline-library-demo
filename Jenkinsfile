@@ -7,6 +7,11 @@ pipeline {
             }
         }
     }
+    post {
+        always {
+            echo 'Test Post'
+        }
+    }
 }
 
 def getChangeString() {
