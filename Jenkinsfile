@@ -5,7 +5,7 @@ pipeline {
             steps {
                   getChangeString()
 
-                  gitChangelog returnType: 'STRING', template: '''<h1> Git Changelog changelog </h1>
+                  echo gitChangelog returnType: 'STRING', template: '''<h1> Git Changelog changelog </h1>
 
                                                         <p>
                                                         Changelog of Git Changelog.
