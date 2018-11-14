@@ -5,7 +5,7 @@ pipeline {
             steps {
                   getChangeString()
 
-                  def changelogString1 = gitChangelog returnType: 'STRING', template: '''<h1> Git Changelog changelog </h1>
+                  gitChangelog returnType: 'STRING', template: '''<h1> Git Changelog changelog </h1>
 
                                                         <p>
                                                         Changelog of Git Changelog.
@@ -43,7 +43,6 @@ pipeline {
                                                          {{/issues}}
                                                         {{/tags}}'''
 
-                  echo changelogString1
             }
         }
     }
