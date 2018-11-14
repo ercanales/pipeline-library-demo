@@ -10,8 +10,10 @@ pipeline {
     post {
         always {
             echo 'Test Post'
-            def changelogString = gitChangelog returnType: 'STRING'
-            echo changelogString
+            script {
+                def changelogString = gitChangelog returnType: 'STRING'
+                echo changelogString
+            }
         }
     }
 }
