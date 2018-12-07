@@ -3,45 +3,6 @@ pipeline {
     stages {
         stage('ChangeStrings') {
             steps {
-                  getChangeString()
-
-                  echo gitChangelog returnType: 'STRING', template: '''<h1> Git Changelog changelog </h1>
-
-                                                        <p>
-                                                        Changelog of Git Changelog.
-                                                        </p>
-
-                                                        {{#tags}}
-                                                        <h2> {{name}} </h2>
-                                                         {{#issues}}
-                                                          {{#hasIssue}}
-                                                           {{#hasLink}}
-                                                        <h2> {{name}} <a href="{{link}}">{{issue}}</a> {{title}} </h2>
-                                                           {{/hasLink}}
-                                                           {{^hasLink}}
-                                                        <h2> {{name}} {{issue}} {{title}} </h2>
-                                                           {{/hasLink}}
-                                                          {{/hasIssue}}
-                                                          {{^hasIssue}}
-                                                        <h2> {{name}} </h2>
-                                                          {{/hasIssue}}
-
-
-                                                           {{#commits}}
-                                                        <a href="https://github.com/tomasbjerre/git-changelog-lib/commit/{{hash}}">{{hash}}</a> {{authorName}} <i>{{commitTime}}</i>
-                                                        <p>
-                                                        <h3>{{{messageTitle}}}</h3>
-
-                                                        {{#messageBodyItems}}
-                                                         <li> {{.}}</li>
-                                                        {{/messageBodyItems}}
-                                                        </p>
-
-
-                                                          {{/commits}}
-
-                                                         {{/issues}}
-                                                        {{/tags}}'''
 
             }
         }
@@ -49,47 +10,114 @@ pipeline {
     post {
         always {
             echo 'Test Post'
-            script {
-                def changelogString = gitChangelog returnType: 'STRING', template: '''<h1> Git Changelog changelog </h1>
+            step([$class: 'GitChangelogRecorder', config: [configFile: 'git-changelog-settings.json', createFileTemplateContent: '''<h1> Git Changelog changelog </h1>
 
-                                      <p>
-                                      Changelog of Git Changelog.
-                                      </p>
+            <p>
+            Changelog of Git Changelog.
+            </p>
 
-                                      {{#tags}}
-                                      <h2> {{name}} </h2>
-                                       {{#issues}}
-                                        {{#hasIssue}}
-                                         {{#hasLink}}
-                                      <h2> {{name}} <a href="{{link}}">{{issue}}</a> {{title}} </h2>
-                                         {{/hasLink}}
-                                         {{^hasLink}}
-                                      <h2> {{name}} {{issue}} {{title}} </h2>
-                                         {{/hasLink}}
-                                        {{/hasIssue}}
-                                        {{^hasIssue}}
-                                      <h2> {{name}} </h2>
-                                        {{/hasIssue}}
-
-
-                                         {{#commits}}
-                                      <a href="https://github.com/tomasbjerre/git-changelog-lib/commit/{{hash}}">{{hash}}</a> {{authorName}} <i>{{commitTime}}</i>
-                                      <p>
-                                      <h3>{{{messageTitle}}}</h3>
-
-                                      {{#messageBodyItems}}
-                                       <li> {{.}}</li>
-                                      {{/messageBodyItems}}
-                                      </p>
+            {{#tags}}
+            <h2> {{name}} </h2>
+             {{#issues}}
+              {{#hasIssue}}
+               {{#hasLink}}
+            <h2> {{name}} <a href="{{link}}">{{issue}}</a> {{title}} </h2>
+               {{/hasLink}}
+               {{^hasLink}}
+            <h2> {{name}} {{issue}} {{title}} </h2>
+               {{/hasLink}}
+              {{/hasIssue}}
+              {{^hasIssue}}
+            <h2> {{name}} </h2>
+              {{/hasIssue}}
 
 
-                                        {{/commits}}
+               {{#commits}}
+            <a href="https://github.com/tomasbjerre/git-changelog-lib/commit/{{hash}}">{{hash}}</a> {{authorName}} <i>{{commitTime}}</i>
+            <p>
+            <h3>{{{messageTitle}}}</h3>
 
-                                       {{/issues}}
-                                      {{/tags}}'''
+            {{#messageBodyItems}}
+             <li> {{.}}</li>
+            {{/messageBodyItems}}
+            </p>
+              {{/commits}}
 
-                echo changelogString
-            }
+             {{/issues}}
+            {{/tags}}
+            ''', createFileTemplateFile: '', customIssues: [[link: '', name: '', pattern: '', title: ''], [link: '', name: '', pattern: '', title: '']], dateFormat: 'YYYY-MM-dd HH:mm:ss', file: 'CHANGELOG.html', fromReference: '', fromType: 'firstCommit', gitHubApi: '', gitHubApiTokenCredentialsId: '', gitHubIssuePattern: '#([0-9]+)', gitHubToken: '', gitLabApiTokenCredentialsId: '', gitLabProjectName: '', gitLabServer: '', gitLabToken: '', ignoreCommitsIfMessageMatches: '^\\[maven-release-plugin\\].*|^\\[Gradle Release Plugin\\].*|^Merge.*', ignoreTagsIfNameMatches: '', jiraIssuePattern: '\\b[a-zA-Z]([a-zA-Z]+)-([0-9]+)\\b', jiraPassword: '', jiraServer: '', jiraUsername: '', jiraUsernamePasswordCredentialsId: '', mediaWikiPassword: '', mediaWikiTemplateContent: '''__NOTOC__
+
+            = Git Changelog changelog =
+            Changelog of Git Changelog.
+
+            {{#tags}}
+            == {{name}} ==
+             {{#issues}}
+              {{#hasIssue}}
+               {{#hasLink}}
+            === {{name}} [{{link}} {{issue}}] {{title}} ===
+               {{/hasLink}}
+               {{^hasLink}}
+            === {{name}} {{issue}} {{title}} ===
+               {{/hasLink}}
+              {{/hasIssue}}
+              {{^hasIssue}}
+            === {{name}} ===
+              {{/hasIssue}}
+
+               {{#commits}}
+            [https://github.com/tomasbjerre/git-changelog-lib/commit/{{hash}} {{hash}}] {{authorName}} {{commitTime}}
+
+            \'\'\'{{{messageTitle}}}\'\'\'
+
+            {{#messageBodyItems}}
+             * {{.}}
+            {{/messageBodyItems}}
+
+              {{/commits}}
+
+             {{/issues}}
+            {{/tags}}
+            ''', mediaWikiTemplateFile: '', mediaWikiTitle: '', mediaWikiUrl: '', mediaWikiUsername: '', noIssueName: 'No issue', readableTagName: '/([^/]+?)$', showSummary: true, showSummaryTemplateContent: '''<h1> Git Changelog changelog </h1>
+
+            <p>
+            Changelog of Git Changelog.
+            </p>
+
+            {{#tags}}
+            <h2> {{name}} </h2>
+             {{#issues}}
+              {{#hasIssue}}
+               {{#hasLink}}
+            <h2> {{name}} <a href="{{link}}">{{issue}}</a> {{title}} </h2>
+               {{/hasLink}}
+               {{^hasLink}}
+            <h2> {{name}} {{issue}} {{title}} </h2>
+               {{/hasLink}}
+              {{/hasIssue}}
+              {{^hasIssue}}
+            <h2> {{name}} </h2>
+              {{/hasIssue}}
+
+
+               {{#commits}}
+            <a href="https://github.com/tomasbjerre/git-changelog-lib/commit/{{hash}}">{{hash}}</a> {{authorName}} <i>{{commitTime}}</i>
+            <p>
+            <h3>{{{messageTitle}}}</h3>
+
+            {{#messageBodyItems}}
+             <li> {{.}}</li>
+            {{/messageBodyItems}}
+            </p>
+
+
+              {{/commits}}
+
+             {{/issues}}
+            {{/tags}}
+            ''', showSummaryTemplateFile: '', showSummaryUseTemplateContent: true, subDirectory: '', timeZone: 'UTC', toReference: '', toType: 'master', untaggedName: 'Unreleased']])
+
+
         }
     }
 }
