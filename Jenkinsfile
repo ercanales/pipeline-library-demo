@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('ChangeStrings') {
             steps {
-
+                echo 'Main Step'
             }
         }
     }
