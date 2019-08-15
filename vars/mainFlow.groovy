@@ -26,6 +26,7 @@ def call(body) {
 
           subFlow(
             //PROJECT_CONFIG: "${pipelineParams.devProjectConfig}",
+            PROJECT_CONFIG: "Config",
             SA_TOKEN: env.PROJECT_SA_TOKEN
           )
 
