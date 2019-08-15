@@ -3,7 +3,7 @@
 mainFlow {
     app = "test"
     devProjectConfig = [
-        GCP_PROJECT: "ProjectName"
+        GCP_PROJECT: "ProjectName",
         PROJECT: "project_id",
         FOLDER: "Dev"
     ]
