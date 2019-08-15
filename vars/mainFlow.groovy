@@ -26,7 +26,7 @@ def call(body) {
           echo env.APPLICATION_NAME
 
           subFlow(
-            PROJECT_CONFIG: "${pipelineParams.devProjectConfig}",
+            PROJECT_CONFIG: pipelineParams.devProjectConfig,
             SA_TOKEN: env.PROJECT_SA_TOKEN
           )
 
