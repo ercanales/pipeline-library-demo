@@ -1,4 +1,4 @@
-def call(config) {
+def call(Map config) {
   
     TestAuth(
         token: "${config.SA_TOKEN}",
