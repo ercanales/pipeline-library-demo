@@ -4,7 +4,7 @@ def call(body) {
   body.delegate = pipelineParams
   body()
 
-  def jenkinsAgent = pipelineParams?.agent ? "${pipelineParams.agent}" : "jenkins-agent"
+  //def jenkinsAgent = pipelineParams?.agent ? "${pipelineParams.agent}" : "jenkins-agent"
 
   pipeline {
     agent none
@@ -16,7 +16,7 @@ def call(body) {
     stages {
 
       stage("Update Dev Objects") {
-        agent {label "${jenkinsAgent}"}
+        agent any
         
         environment{
           PROJECT_SA_TOKEN = credentials("${pipelineParams.devProjectConfig.PROJECT}-jenkins-sa")
