@@ -23,6 +23,7 @@ def call(body) {
         }
 
         steps {
+          echo env.APPLICATION_NAME
 
           subFlow(
             PROJECT_CONFIG: "${pipelineParams.devProjectConfig}",
